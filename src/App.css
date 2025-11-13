@@ -1,0 +1,434 @@
+.app-container {
+  width: 100vw;
+  height: 100vh;
+  background-color: #000000;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Animated Cursor */
+.cursor {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #00FFFF;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 10000;
+  box-shadow: 
+    0 0 10px #00FFFF,
+    0 0 20px #00FFFF,
+    0 0 30px #00FFFF,
+    inset 0 0 10px rgba(0, 255, 255, 0.5);
+  transition: transform 0.05s linear;
+  animation: cursorPulse 2s ease-in-out infinite;
+}
+
+.cursor::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 4px;
+  height: 4px;
+  background-color: #00FFFF;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #00FFFF;
+}
+
+.cursor::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  width: 2px;
+  height: 20px;
+  background: linear-gradient(to bottom, transparent, #00FFFF, transparent);
+  box-shadow: 0 0 5px #00FFFF;
+}
+
+.cursor-trail {
+  position: fixed;
+  width: 12px;
+  height: 12px;
+  border: 1px solid rgba(0, 255, 255, 0.4);
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  box-shadow: 0 0 8px rgba(0, 255, 255, 0.3);
+  transition: opacity 0.2s ease-out, transform 0.1s linear;
+}
+
+@keyframes cursorPulse {
+  0%, 100% {
+    box-shadow: 
+      0 0 10px #00FFFF,
+      0 0 20px #00FFFF,
+      0 0 30px #00FFFF,
+      inset 0 0 10px rgba(0, 255, 255, 0.5);
+  }
+  50% {
+    box-shadow: 
+      0 0 15px #00FFFF,
+      0 0 30px #00FFFF,
+      0 0 45px #00FFFF,
+      inset 0 0 15px rgba(0, 255, 255, 0.7);
+  }
+}
+
+/* Main Layout */
+.main-layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 1fr;
+  gap: 0;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+}
+
+/* Map View Container */
+.map-view-container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding-right: 10px;
+  gap: 15px;
+  overflow: visible;
+}
+
+.map-view-border {
+  position: relative;
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  border: 3px solid #00FFFF;
+  border-radius: 15px;
+  background-color: #000000;
+  box-shadow: 
+    0 0 20px rgba(0, 255, 255, 0.5),
+    inset 0 0 50px rgba(0, 255, 255, 0.1);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  animation: borderGlow 3s ease-in-out infinite;
+}
+
+@keyframes borderGlow {
+  0%, 100% {
+    box-shadow: 
+      0 0 20px rgba(0, 255, 255, 0.5),
+      inset 0 0 50px rgba(0, 255, 255, 0.1);
+  }
+  50% {
+    box-shadow: 
+      0 0 30px rgba(0, 255, 255, 0.8),
+      inset 0 0 70px rgba(0, 255, 255, 0.2);
+  }
+}
+
+/* Targeting Reticles */
+.targeting-reticle {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border: 2px solid #00FFFF;
+  z-index: 10;
+}
+
+.targeting-reticle::before,
+.targeting-reticle::after {
+  content: '';
+  position: absolute;
+  background-color: #00FFFF;
+  box-shadow: 0 0 10px #00FFFF;
+}
+
+.targeting-reticle.top-left {
+  top: 10px;
+  left: 10px;
+  border-right: none;
+  border-bottom: none;
+  border-radius: 15px 0 0 0;
+}
+
+.targeting-reticle.top-left::before {
+  top: 0;
+  left: 10px;
+  width: 2px;
+  height: 20px;
+}
+
+.targeting-reticle.top-left::after {
+  top: 10px;
+  left: 0;
+  width: 20px;
+  height: 2px;
+}
+
+.targeting-reticle.top-right {
+  top: 10px;
+  right: 10px;
+  border-left: none;
+  border-bottom: none;
+  border-radius: 0 15px 0 0;
+}
+
+.targeting-reticle.top-right::before {
+  top: 0;
+  right: 10px;
+  width: 2px;
+  height: 20px;
+}
+
+.targeting-reticle.top-right::after {
+  top: 10px;
+  right: 0;
+  width: 20px;
+  height: 2px;
+}
+
+.targeting-reticle.bottom-left {
+  bottom: 10px;
+  left: 10px;
+  border-right: none;
+  border-top: none;
+  border-radius: 0 0 0 15px;
+}
+
+.targeting-reticle.bottom-left::before {
+  bottom: 0;
+  left: 10px;
+  width: 2px;
+  height: 20px;
+}
+
+.targeting-reticle.bottom-left::after {
+  bottom: 10px;
+  left: 0;
+  width: 20px;
+  height: 2px;
+}
+
+.targeting-reticle.bottom-right {
+  bottom: 10px;
+  right: 10px;
+  border-left: none;
+  border-top: none;
+  border-radius: 0 0 15px 0;
+}
+
+.targeting-reticle.bottom-right::before {
+  bottom: 0;
+  right: 10px;
+  width: 2px;
+  height: 20px;
+}
+
+.targeting-reticle.bottom-right::after {
+  bottom: 10px;
+  right: 0;
+  width: 20px;
+  height: 2px;
+}
+
+/* Map View Header */
+.map-view-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10px 0;
+}
+
+/* Map View Label */
+.map-view-label {
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  color: #00FFFF;
+  text-shadow: 
+    0 0 10px #00FFFF,
+    0 0 20px #00FFFF;
+}
+
+/* Coordinates */
+.coordinates {
+  font-size: 14px;
+  font-weight: normal;
+  letter-spacing: 2px;
+  color: #00FFFF;
+  text-shadow: 
+    0 0 5px #00FFFF,
+    0 0 10px rgba(0, 255, 255, 0.5);
+  text-align: right;
+  line-height: 1.6;
+}
+
+/* Right Panel */
+.right-panel {
+  display: flex;
+  flex-direction: column;
+  padding-left: 10px;
+  flex: 1;
+  min-height: 0;
+  border: none;
+  outline: none;
+}
+
+/* Weapon Grid Container */
+.weapon-grid-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  flex: 1;
+  min-height: 0;
+  border: none;
+  outline: none;
+}
+
+.weapon-grid-border {
+  width: 100%;
+  background-color: #000000;
+  padding: 0;
+}
+
+.weapon-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 0;
+  width: 100%;
+}
+
+.weapon-slot {
+  border: 1.5px solid #00FFFF;
+  border-radius: 0;
+  padding: 0 0 10px 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+  color: #00FFFF;
+  text-shadow: 
+    0 0 5px #00FFFF,
+    0 0 10px rgba(0, 255, 255, 0.3);
+  transition: all 0.3s ease;
+  background-color: transparent;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  position: relative;
+}
+
+.weapon-slot:hover {
+  background-color: rgba(0, 255, 255, 0.05);
+  transform: scale(1.02);
+}
+
+.weapon-number {
+  margin-right: 8px;
+  color: #00FFFF;
+  font-weight: bold;
+}
+
+/* Message Log Container */
+.message-log-container {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  border: none;
+  outline: none;
+}
+
+.message-log-border {
+  width: 100%;
+  height: 100%;
+  background-color: #000000;
+  padding: 30px;
+  overflow-y: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  border: none;
+  outline: none;
+}
+
+.message-log-border::-webkit-scrollbar {
+  width: 0;
+  display: none;
+}
+
+.message-log {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.message-item {
+  font-size: 18px;
+  line-height: 1.8;
+  color: #00FFFF;
+  font-family: 'Courier New', 'Consolas', 'Monaco', monospace;
+  padding: 8px 0;
+}
+
+.message-sender {
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: #00FFFF;
+  text-shadow: 
+    0 0 5px #00FFFF,
+    0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+.message-content {
+  color: rgba(0, 255, 255, 0.9);
+  text-shadow: 0 0 3px rgba(0, 255, 255, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .main-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+
+  .map-view-container {
+    padding-right: 0;
+    padding-bottom: 10px;
+  }
+
+  .right-panel {
+    padding-left: 0;
+    padding-top: 0;
+  }
+
+}
+
+@media (max-width: 768px) {
+  .main-layout {
+    padding: 10px;
+  }
+
+  .map-view-label {
+    font-size: 14px;
+  }
+
+  .coordinates {
+    font-size: 12px;
+  }
+
+  .weapon-slot {
+    font-size: 12px;
+  }
+
+  .message-item {
+    font-size: 14px;
+  }
+}
+
