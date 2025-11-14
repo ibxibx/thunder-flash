@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import './App.css'
 
 interface Message {
@@ -34,6 +34,26 @@ const App = () => {
       content: 'Message from Sam Mendes Message templa Template Message Template Messa Template Message Template Message Template Message Template Message Template'
     }
   ]
+
+  // Generate GPS coordinates for a 10x10 grid
+  const gridCoordinates = useMemo(() => {
+    const grid: Array<Array<{ lat: number; lon: number }>> = []
+    const baseLat = 32.56249932 // Base latitude
+    const baseLon = -32.56249932 // Base longitude
+    const step = 0.001 // Step size for grid cells
+
+    for (let row = 0; row < 10; row++) {
+      const rowData: Array<{ lat: number; lon: number }> = []
+      for (let col = 0; col < 10; col++) {
+        rowData.push({
+          lat: baseLat + (9 - row) * step, // Reverse row order so top is higher latitude
+          lon: baseLon + col * step
+        })
+      }
+      grid.push(rowData)
+    }
+    return grid
+  }, [])
 
   useEffect(() => {
     let animationFrame: number
@@ -94,6 +114,22 @@ const App = () => {
         {/* Map View Section */}
         <div className="map-view-container">
           <div className="map-view-border">
+            <div className="map-grid">
+              {gridCoordinates.map((row, rowIndex) => (
+                <div key={rowIndex} className="map-grid-row">
+                  {row.map((coord, colIndex) => (
+                    <div key={colIndex} className="map-grid-cell">
+                      <div className="grid-coord-lat">
+                        {coord.lat.toFixed(6)}° N
+                      </div>
+                      <div className="grid-coord-lon">
+                        {Math.abs(coord.lon).toFixed(6)}° W
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
           </div>
           
           {/* Map View Label and Coordinates */}
