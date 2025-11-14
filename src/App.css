@@ -160,6 +160,22 @@
     inset 0 0 10px rgba(0, 255, 255, 0.1);
 }
 
+.map-grid-cell.clickable:hover {
+  background-color: rgba(0, 255, 255, 0.15);
+  border-color: rgba(0, 255, 255, 0.8);
+  box-shadow: 
+    0 0 8px rgba(0, 255, 255, 0.5),
+    inset 0 0 15px rgba(0, 255, 255, 0.15);
+  transform: scale(1.02);
+}
+
+.map-grid-cell.clickable:active {
+  transform: scale(0.98);
+  box-shadow: 
+    0 0 12px rgba(0, 255, 255, 0.7),
+    inset 0 0 20px rgba(0, 255, 255, 0.2);
+}
+
 .grid-coord-lat,
 .grid-coord-lon {
   font-size: 10px;
@@ -185,6 +201,39 @@
 .grid-coord-lon {
   font-weight: normal;
   opacity: 0.9;
+}
+
+.grid-coord-empty {
+  font-size: 12px;
+  color: rgba(0, 255, 255, 0.4);
+  text-shadow: 0 0 3px rgba(0, 255, 255, 0.2);
+  font-family: 'Courier New', 'Consolas', 'Monaco', monospace;
+  letter-spacing: 1px;
+}
+
+.grid-loading,
+.grid-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-size: 24px;
+  color: #00FFFF;
+  text-shadow: 
+    0 0 10px #00FFFF,
+    0 0 20px rgba(0, 255, 255, 0.5);
+  font-family: 'Courier New', 'Consolas', 'Monaco', monospace;
+  letter-spacing: 2px;
+  text-align: center;
+  padding: 40px;
+}
+
+.grid-error {
+  color: #FF6B6B;
+  text-shadow: 
+    0 0 10px #FF6B6B,
+    0 0 20px rgba(255, 107, 107, 0.5);
 }
 
 @keyframes borderGlow {
@@ -397,6 +446,38 @@
   width: 100%;
   aspect-ratio: 1 / 1;
   position: relative;
+  overflow: hidden;
+}
+
+.weapon-slot:has(.weapon-image),
+.weapon-slot:has(.weapon-loading) {
+  align-items: center;
+  padding: 0;
+}
+
+.weapon-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 0;
+  image-rendering: auto;
+}
+
+.weapon-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 18px;
+  color: #00FFFF;
+  text-shadow: 
+    0 0 5px #00FFFF,
+    0 0 10px rgba(0, 255, 255, 0.5);
+  font-family: 'Courier New', 'Consolas', 'Monaco', monospace;
+  letter-spacing: 2px;
 }
 
 .weapon-slot:hover {
